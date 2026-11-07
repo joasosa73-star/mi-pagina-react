@@ -1,36 +1,33 @@
 
 
+
 /* CONFIGURACIÓN GENERAL */
 
 * {
-
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
 html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 85px;
-    background: var(--cb-fondo);
-    overflow-x: clip;
+  scroll-behavior: smooth;
+  scroll-padding-top: 85px;
 }
 
 body {
-    width: 100%;
-    min-height: 100vh;
-    margin: 0;
-    overflow-x: clip;
-    background: var(--cb-fondo);
-    color: var(--cb-texto);
-    font-family: 'Permanent Marker', cursive;
-    animation: cb-aparecer 650ms ease both;
-    background: #000000;
+  width: 100%;
+  min-height: 100vh;
+  background: #090b13;
+  color: #f4f5fa;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  overflow-x: clip;
 }
-
 
 a {
   text-decoration: none;
   color: inherit;
 }
+
 
 /* ENCABEZADO */
 
