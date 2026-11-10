@@ -1,5 +1,4 @@
 
-
 /* ========================================
    PROYECTOS - JOANET
 ======================================== */
@@ -20,7 +19,7 @@
 .proyectos-etiqueta {
   display: inline-block;
   margin-bottom: 20px;
-  color: #888888;
+  color: #3478F6;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 3px;
@@ -34,7 +33,7 @@
 }
 
 .proyectos-encabezado h2 span {
-  color: #888888;
+  color: #3478F6;
 }
 
 .proyectos-encabezado p {
@@ -42,6 +41,13 @@
   color: #999999;
   font-size: 15px;
   line-height: 1.8;
+}
+
+/* ESTADOS */
+.proyectos-estado {
+  margin: 40px 8%;
+  color: #999999;
+  font-size: 14px;
 }
 
 /* VENTANA DEL CARRUSEL */
@@ -58,7 +64,7 @@
   animation: proyectos-derecha 35s linear infinite;
 }
 
-/* MOVIMIENTO HACIA LA DERECHA */
+/* MOVIMIENTO INFINITO */
 @keyframes proyectos-derecha {
   from {
     transform: translateX(-50%);
@@ -74,13 +80,20 @@
   animation-play-state: paused;
 }
 
-/* CARTAS */
+/* TARJETAS */
 .proyecto-card {
   display: block;
   flex: 0 0 430px;
   width: 430px;
   color: #ffffff;
   text-decoration: none;
+  outline: none;
+}
+
+/* FOCO DE TECLADO */
+.proyecto-card:focus-visible {
+  outline: 2px solid #3478F6;
+  outline-offset: 6px;
 }
 
 /* IMAGEN */
@@ -89,8 +102,13 @@
   width: 100%;
   overflow: hidden;
   aspect-ratio: 16 / 10;
-  background: #151515;
+  background: #101010;
   border: 1px solid #252525;
+  transition: border-color 300ms ease;
+}
+
+.proyecto-card:hover .proyecto-imagen {
+  border-color: #3478F6;
 }
 
 .proyecto-imagen img {
@@ -102,8 +120,8 @@
 }
 
 .proyecto-card:hover .proyecto-imagen img {
-  transform: scale(1.05);
-  opacity: 0.75;
+  transform: scale(1.06);
+  opacity: 0.8;
 }
 
 /* FLECHA */
@@ -115,12 +133,11 @@
   place-items: center;
   width: 42px;
   height: 42px;
-  background: #ffffff;
-  color: #000000;
-  font-size: 22px;
+  background: #3478F6;
+  color: #ffffff;
   opacity: 0;
   transform: translateY(8px);
-  transition: 300ms ease;
+  transition: opacity 300ms ease, transform 300ms ease;
 }
 
 .proyecto-card:hover .proyecto-flecha {
@@ -141,6 +158,11 @@
   margin: 0;
   font-size: 19px;
   font-weight: 600;
+  transition: color 300ms ease;
+}
+
+.proyecto-card:hover .proyecto-info h3 {
+  color: #3478F6;
 }
 
 .proyecto-info p {
@@ -151,8 +173,9 @@
 }
 
 .proyecto-numero {
-  color: #666666;
+  color: #3478F6;
   font-size: 12px;
+  font-weight: 600;
 }
 
 /* TABLETS */
@@ -202,5 +225,9 @@
   .proyectos-pista {
     animation: none;
     transform: none;
+  }
+
+  .proyecto-imagen img {
+    transition: none;
   }
 }
