@@ -48,9 +48,17 @@ function Footer() {
 
         <p>© {anio} JOANET. Todos los derechos reservados.</p>
 
-        <a href="#inicio" className="footer-volver">
-          VOLVER ARRIBA <span>↑</span>
-        </a>
+        <div className="footer-acciones">
+
+          <a href="/admin" className="footer-admin">
+            ADMIN <span>↗</span>
+          </a>
+
+          <a href="#inicio" className="footer-volver">
+            VOLVER ARRIBA <span>↑</span>
+          </a>
+
+        </div>
 
       </div>
 
