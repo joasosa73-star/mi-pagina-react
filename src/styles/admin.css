@@ -1,0 +1,429 @@
+/* ================================
+   ADMINISTRADOR JOANET
+================================ */
+
+.admin-pagina {
+  min-height: 100vh;
+  padding: 35px 7%;
+  background: #000000;
+  color: #ffffff;
+  font-family: 'Figtree', sans-serif;
+}
+
+.admin-pagina * {
+  box-sizing: border-box;
+}
+
+.admin-pagina button,
+.admin-pagina input,
+.admin-pagina textarea {
+  font: inherit;
+}
+
+.admin-pagina button {
+  cursor: pointer;
+}
+
+.admin-pagina button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.admin-logo {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-decoration: none;
+}
+
+.admin-logo span,
+.admin-titulo h1 span,
+.admin-login-form h1 span {
+  color: #a3a3a3;
+}
+
+/* LOGIN */
+
+.admin-login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-login-form {
+  width: 100%;
+  max-width: 430px;
+  margin: auto 0;
+  padding: 45px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-etiqueta {
+  color: #a3a3a3;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.admin-login-form h1,
+.admin-titulo h1 {
+  margin: 15px 0;
+  font-size: clamp(35px, 6vw, 55px);
+  font-weight: 700;
+  letter-spacing: -2px;
+}
+
+.admin-login-form > p,
+.admin-titulo > p {
+  color: #a3a3a3;
+  line-height: 1.7;
+}
+
+.admin-pagina label {
+  margin: 25px 0 9px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-pagina input,
+.admin-pagina textarea {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #303030;
+  border-radius: 4px;
+  outline: none;
+  background: #101010;
+  color: #ffffff;
+  transition: border-color 0.2s ease;
+}
+
+.admin-pagina input:focus,
+.admin-pagina textarea:focus {
+  border-color: #ffffff;
+}
+
+.admin-pagina input::placeholder,
+.admin-pagina textarea::placeholder {
+  color: #777777;
+}
+
+.admin-login-form > button,
+.admin-acciones-formulario > button:first-child {
+  margin-top: 22px;
+  padding: 15px 22px;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #000000;
+  font-weight: 700;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.admin-login-form > button:hover,
+.admin-acciones-formulario > button:first-child:hover {
+  background: #000000;
+  color: #ffffff;
+}
+
+.admin-volver {
+  display: inline-block;
+  margin-top: 25px;
+  color: #a3a3a3;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.admin-volver:hover {
+  color: #ffffff;
+}
+
+/* BARRA SUPERIOR */
+
+.admin-barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #252525;
+}
+
+.admin-barra-derecha {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  color: #a3a3a3;
+  font-size: 13px;
+}
+
+.admin-salir,
+.admin-cancelar {
+  padding: 10px 15px;
+  border: 1px solid #373737;
+  border-radius: 4px;
+  background: transparent;
+  color: #ffffff;
+}
+
+.admin-salir:hover,
+.admin-cancelar:hover {
+  border-color: #ffffff;
+}
+
+/* CONTENIDO */
+
+.admin-contenido {
+  width: 100%;
+  max-width: 1000px;
+  margin: 75px auto 35px;
+}
+
+.admin-titulo {
+  margin-bottom: 45px;
+}
+
+.admin-titulo h1 {
+  margin-bottom: 8px;
+}
+
+.admin-formulario {
+  padding: 30px;
+  border: 1px solid #292929;
+  border-radius: 5px;
+  background: #080808;
+}
+
+.admin-formulario-titulo,
+.admin-listado-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.admin-formulario-titulo h2,
+.admin-listado-titulo h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.admin-formulario-titulo > span,
+.admin-listado-titulo > span {
+  color: #929292;
+  font-size: 12px;
+}
+
+.admin-formulario textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.admin-imagen-ayuda {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #252525;
+  border-radius: 4px;
+  background: #101010;
+}
+
+.admin-imagen-ayuda > span {
+  display: block;
+  margin-bottom: 8px;
+  color: #aaaaaa;
+  font-size: 12px;
+}
+
+.admin-imagen-ayuda code {
+  color: #ffffff;
+  overflow-wrap: anywhere;
+}
+
+.admin-imagen-ayuda p {
+  margin: 10px 0 0;
+  color: #929292;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.admin-acciones-formulario {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.admin-acciones-formulario > button:first-child {
+  margin-top: 22px;
+}
+
+.admin-acciones-formulario .admin-cancelar {
+  margin-top: 22px;
+  padding: 15px 22px;
+}
+
+/* MENSAJES */
+
+.admin-error,
+.admin-mensaje {
+  margin: 18px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-error {
+  color: #ff8585;
+}
+
+.admin-mensaje {
+  color: #a7e5b2;
+}
+
+.admin-cargando,
+.admin-vacio {
+  padding: 30px 0;
+  color: #aaaaaa;
+  text-align: center;
+}
+
+/* LISTADO */
+
+.admin-listado {
+  margin-top: 65px;
+}
+
+.admin-listado-titulo {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #252525;
+}
+
+.admin-proyectos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-proyecto {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 17px;
+  border: 1px solid #292929;
+  border-radius: 5px;
+  background: #080808;
+}
+
+.admin-proyecto > img {
+  width: 125px;
+  height: 90px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  object-fit: cover;
+  background: #151515;
+}
+
+.admin-proyecto-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-proyecto-info h3 {
+  margin: 0 0 7px;
+  font-size: 16px;
+}
+
+.admin-proyecto-info p {
+  margin: 0 0 10px;
+  color: #a3a3a3;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-proyecto-info a {
+  color: #ffffff;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.admin-proyecto-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-proyecto-acciones button {
+  padding: 9px 13px;
+  border: 1px solid #454545;
+  border-radius: 4px;
+  background: transparent;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.admin-proyecto-acciones button:hover {
+  border-color: #ffffff;
+}
+
+.admin-proyecto-acciones .admin-eliminar {
+  border-color: #663333;
+  color: #ff9999;
+}
+
+.admin-proyecto-acciones .admin-eliminar:hover {
+  border-color: #ff9999;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 650px) {
+  .admin-pagina {
+    padding: 25px 5%;
+  }
+
+  .admin-barra {
+    align-items: flex-start;
+  }
+
+  .admin-barra-derecha {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 10px;
+    text-align: right;
+  }
+
+  .admin-contenido {
+    margin-top: 50px;
+  }
+
+  .admin-formulario {
+    padding: 20px;
+  }
+
+  .admin-proyecto {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .admin-proyecto > img {
+    width: 90px;
+    height: 75px;
+  }
+
+  .admin-proyecto-info {
+    width: calc(100% - 110px);
+    flex: none;
+  }
+
+  .admin-proyecto-acciones {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .admin-proyecto-acciones button {
+    flex: 1;
+  }
+}

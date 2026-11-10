@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "joanet",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-11-09",
+  "env": {
+    "preview": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "joanet-proyectos-prueba",
+          "database_id": "787effe6-8b43-4601-adb1-db40968a6d0c"
+        }
+      ]
+    },
+    "production": {
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "joanet-proyectos",
+          "database_id": "2649c714-e8c8-4edd-8d7d-6cc4accd985c"
+        }
+      ]
+    }
+  }
+}

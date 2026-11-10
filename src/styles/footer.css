@@ -1,0 +1,191 @@
+
+/* ========================================
+   FOOTER - JOANET
+======================================== */
+
+.footer {
+  width: 100%;
+  padding: 75px 8% 25px;
+
+  background: #000000;
+  color: #ffffff;
+
+  border-top: 1px solid #252525;
+  box-sizing: border-box;
+}
+
+/* CONTENIDO PRINCIPAL */
+
+.footer-contenido {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 60px;
+
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-bottom: 65px;
+}
+
+/* MARCA */
+
+.footer-logo {
+  display: inline-block;
+
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  text-decoration: none;
+}
+
+.footer-logo span {
+  color: #888888;
+}
+
+.footer-marca p {
+  max-width: 300px;
+  margin-top: 18px;
+
+  color: #888888;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* TÍTULOS */
+
+.footer-contenido h3 {
+  margin: 8px 0 25px;
+
+  color: #777777;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+/* NAVEGACIÓN Y CONTACTO */
+
+.footer-navegacion,
+.footer-contacto {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footer-navegacion a,
+.footer-contacto a {
+  margin-bottom: 15px;
+
+  color: #b0b0b0;
+  font-size: 13px;
+  text-decoration: none;
+
+  transition: color 250ms ease;
+}
+
+.footer-navegacion a:hover,
+.footer-contacto a:hover {
+  color: #ffffff;
+}
+
+.footer-contacto a span {
+  display: inline-block;
+  margin-left: 5px;
+  transition: transform 250ms ease;
+}
+
+.footer-contacto a:hover span {
+  transform: translate(3px, -3px);
+}
+
+/* PARTE INFERIOR */
+
+.footer-inferior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 25px;
+
+  border-top: 1px solid #252525;
+}
+
+.footer-inferior p {
+  margin: 0;
+
+  color: #666666;
+  font-size: 11px;
+}
+
+.footer-volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #aaaaaa;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-decoration: none;
+
+  transition: color 250ms ease;
+}
+
+.footer-volver:hover {
+  color: #ffffff;
+}
+
+.footer-volver span {
+  font-size: 17px;
+  transition: transform 250ms ease;
+}
+
+.footer-volver:hover span {
+  transform: translateY(-4px);
+}
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 800px) {
+  .footer-contenido {
+    grid-template-columns: 1fr 1fr;
+    gap: 45px;
+  }
+
+  .footer-marca {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 500px) {
+  .footer {
+    padding: 60px 6% 25px;
+  }
+
+  .footer-contenido {
+    grid-template-columns: 1fr;
+    gap: 35px;
+    padding-bottom: 45px;
+  }
+
+  .footer-marca {
+    grid-column: auto;
+  }
+
+  .footer-inferior {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* MOVIMIENTO REDUCIDO */
+
+@media (prefers-reduced-motion: reduce) {
+  .footer * {
+    transition: none !important;
+  }
+}

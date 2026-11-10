@@ -1,0 +1,17 @@
+
+[
+  {
+    "id": 1,
+    "nombre": "Tuxedo Barbería",
+    "descripcion": "Sitio web de barbería moderno y adaptable.",
+    "imagen": "/fotos/tuxedo-barberia.jpg",
+    "enlace": "https://tuxedobarber.pages.dev/"
+  },
+  {
+    "id": 2,
+    "nombre": "Chino Barber",
+    "descripcion": "Página web con galería y sistema de turnos.",
+    "imagen": "/fotos/chino-barber.jpg",
+    "enlace": "https://chinobarber.pages.dev/"
+  }
+]

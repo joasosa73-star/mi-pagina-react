@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS proyectos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    descripcion TEXT NOT NULL,
+    imagen TEXT NOT NULL,
+    enlace TEXT NOT NULL,
+    creado_en DATETIME DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,7 +1,10 @@
 
 import { useState, useRef } from 'react'
-import './App.css'
+import './styles/App.css'
 import Hero from './hero'
+import Proyectos from './proyectos'
+import Footer from './footer'
+import Admin from './admin'
 
 function Header() {
 
@@ -69,16 +72,16 @@ function Header() {
           Inicio
         </a>
 
-        <a href="#sobre-mi" onClick={cerrarMenu}>
-          Sobre mí
+        <a href="#proyectos" onClick={cerrarMenu}>
+          Proyectos
         </a>
 
         <a href="#servicios" onClick={cerrarMenu}>
           Servicios
         </a>
 
-        <a href="#proyectos" onClick={cerrarMenu}>
-          Proyectos
+        <a href="#sobre-mi" onClick={cerrarMenu}>
+          Sobre mí
         </a>
 
         <a
@@ -96,16 +99,26 @@ function Header() {
 }
 
 
-// Componente principal
+// Componente principal.
 function App() {
+  const ruta = window.location.pathname.replace(/\/+$/, '') || '/'
+
+  // Mostrar el administrador en /admin.
+  if (ruta === '/admin') {
+    return <Admin />
+  }
+
+  // Página pública.
   return (
     <>
       <Header />
+
       <main>
         <Hero />
-        
+        <Proyectos />
       </main>
-      
+
+      <Footer />
     </>
   )
 }
