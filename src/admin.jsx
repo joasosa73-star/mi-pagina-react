@@ -1,4 +1,6 @@
+
 import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 import './styles/admin.css'
 
 const formularioInicial = {
@@ -25,7 +27,6 @@ function Admin() {
   const [proyectos, setProyectos] = useState([])
   const [formulario, setFormulario] = useState(formularioInicial)
   const [editandoId, setEditandoId] = useState(null)
-  const [mensaje, setMensaje] = useState('')
   const [error, setError] = useState('')
   const [procesando, setProcesando] = useState(false)
 
@@ -45,8 +46,8 @@ function Admin() {
         const datos = await respuesta.json()
 
         if (datos.autenticado) {
-          setEstado('admin')
           await cargarProyectos()
+          setEstado('admin')
         } else {
           setEstado('login')
         }
@@ -92,7 +93,6 @@ function Admin() {
 
     setProcesando(true)
     setError('')
-    setMensaje('')
 
     try {
       const respuesta = await fetch('/api/auth/login', {
@@ -111,9 +111,13 @@ function Admin() {
       }
 
       setPassword('')
-      setEstado('admin')
 
       await cargarProyectos()
+      setEstado('admin')
+
+      toast.success('¡Bienvenido!', {
+        description: 'Sesión de administrador iniciada.'
+      })
     } catch (error) {
       setError(error.message)
     } finally {
@@ -127,7 +131,6 @@ function Admin() {
 
     setProcesando(true)
     setError('')
-    setMensaje('')
 
     try {
       const editando = editandoId !== null
@@ -157,12 +160,21 @@ function Admin() {
 
       await cargarProyectos()
 
-      setMensaje(editando
-        ? 'Proyecto actualizado correctamente.'
-        : 'Proyecto agregado correctamente.'
+      // NOTIFICACIÓN DE SONNER
+      toast.success(
+        editando
+          ? 'Proyecto actualizado'
+          : 'Proyecto agregado',
+        {
+          description: editando
+            ? 'Los cambios se guardaron correctamente.'
+            : 'El nuevo proyecto ya está registrado.'
+        }
       )
     } catch (error) {
-      setError(error.message)
+      toast.error('No se pudo guardar el proyecto', {
+        description: error.message
+      })
     } finally {
       setProcesando(false)
     }
@@ -178,7 +190,6 @@ function Admin() {
 
     setEditandoId(proyecto.id)
     setError('')
-    setMensaje('')
 
     window.scrollTo({
       top: 0,
@@ -191,7 +202,6 @@ function Admin() {
     setFormulario(formularioInicial)
     setEditandoId(null)
     setError('')
-    setMensaje('')
   }
 
   // Eliminar un proyecto.
@@ -204,7 +214,6 @@ function Admin() {
 
     setProcesando(true)
     setError('')
-    setMensaje('')
 
     try {
       const respuesta = await fetch(`/api/proyectos/${id}`, {
@@ -223,9 +232,15 @@ function Admin() {
       }
 
       await cargarProyectos()
-      setMensaje('Proyecto eliminado correctamente.')
+
+      // NOTIFICACIÓN DE SONNER
+      toast.success('Proyecto eliminado', {
+        description: 'El proyecto se eliminó correctamente.'
+      })
     } catch (error) {
-      setError(error.message)
+      toast.error('No se pudo eliminar el proyecto', {
+        description: error.message
+      })
     } finally {
       setProcesando(false)
     }
@@ -236,19 +251,28 @@ function Admin() {
     setProcesando(true)
 
     try {
-      await fetch('/api/auth/logout', {
+      const respuesta = await fetch('/api/auth/logout', {
         method: 'POST',
         credentials: 'same-origin'
       })
+
+      if (!respuesta.ok) {
+        throw new Error('No se pudo cerrar la sesión.')
+      }
 
       setProyectos([])
       setFormulario(formularioInicial)
       setEditandoId(null)
       setEstado('login')
-      setMensaje('')
       setError('')
-    } catch {
-      setError('No se pudo cerrar la sesión.')
+
+      toast.success('Sesión cerrada', {
+        description: 'Saliste del administrador correctamente.'
+      })
+    } catch (error) {
+      toast.error('Error al cerrar sesión', {
+        description: error.message
+      })
     } finally {
       setProcesando(false)
     }
@@ -376,7 +400,6 @@ function Admin() {
           </div>
 
           {error && <p className="admin-error">{error}</p>}
-          {mensaje && <p className="admin-mensaje">{mensaje}</p>}
 
           <div className="admin-acciones-formulario">
             <button type="submit" disabled={procesando}>
