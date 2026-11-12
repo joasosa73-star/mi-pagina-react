@@ -164,6 +164,49 @@ function Admin() {
   }
 
   // ========================================
+  // ELIMINAR PEDIDOS
+  // ========================================
+
+  async function eliminarPedido(id) {
+    const confirmado = window.confirm(
+      `¿Seguro que querés eliminar la solicitud #${id}? Esta acción no se puede deshacer.`
+    )
+
+    if (!confirmado) return
+
+    setProcesando(true)
+
+    try {
+      const respuesta = await fetch('/api/pedidos', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({ id })
+      })
+
+      const datos = await respuesta.json()
+
+      if (!respuesta.ok) {
+        throw new Error(datos.error || 'No se pudo eliminar el pedido.')
+      }
+
+      await cargarPedidos()
+
+      toast.success('Solicitud eliminada', {
+        description: `El pedido #${id} fue eliminado correctamente.`
+      })
+    } catch (error) {
+      toast.error('No se pudo eliminar la solicitud', {
+        description: error.message
+      })
+    } finally {
+      setProcesando(false)
+    }
+  }
+
+  // ========================================
   // FORMULARIO DE PROYECTOS
   // ========================================
 
@@ -685,6 +728,14 @@ function Admin() {
                     >
                       Mensaje <span aria-hidden="true">↗</span>
                     </a>
+                        <button
+                          type="button"
+                          className="admin-pedido-eliminar"
+                          onClick={() => eliminarPedido(pedido.id)}
+                          disabled={procesando}
+                        >
+                          Eliminar
+                        </button>
                   </div>
 
                 </article>

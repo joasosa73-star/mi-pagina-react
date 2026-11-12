@@ -138,3 +138,53 @@ export async function onRequestPost({ request, env }) {
     )
   }
 }
+
+// ========================================
+// ELIMINAR UN PEDIDO
+// Solo el administrador puede hacerlo.
+// ========================================
+
+export async function onRequestDelete({ request, env }) {
+  if (!(await verifySession(request, env))) {
+    return Response.json(
+      { error: 'No autorizado.' },
+      { status: 401 }
+    )
+  }
+
+  try {
+    const datos = await request.json()
+    const id = Number(datos.id)
+
+    if (!Number.isSafeInteger(id) || id <= 0) {
+      return Response.json(
+        { error: 'El número del pedido no es válido.' },
+        { status: 400 }
+      )
+    }
+
+    const resultado = await env.DB
+      .prepare('DELETE FROM pedidos WHERE id = ?')
+      .bind(id)
+      .run()
+
+    if (resultado.meta?.changes === 0) {
+      return Response.json(
+        { error: 'El pedido no existe o ya fue eliminado.' },
+        { status: 404 }
+      )
+    }
+
+    return Response.json({
+      success: true,
+      message: 'Pedido eliminado correctamente.'
+    })
+  } catch (error) {
+    console.error('Error al eliminar pedido:', error)
+
+    return Response.json(
+      { error: 'No se pudo eliminar el pedido.' },
+      { status: 500 }
+    )
+  }
+}

@@ -666,3 +666,51 @@
     box-sizing: border-box;
   }
 }
+
+/* ========================================
+   ACCIONES DE LOS PEDIDOS
+======================================== */
+
+.admin-pedido-acciones {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-pedido-eliminar {
+  padding: 11px 17px;
+  border: 1px solid #743b49;
+  border-radius: 4px;
+  background: transparent;
+  color: #ff929e;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 200ms ease, border-color 200ms ease;
+}
+
+.admin-pedido-eliminar:hover:not(:disabled) {
+  background: #57232c;
+  border-color: #ff929e;
+}
+
+.admin-pedido-eliminar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* CELULARES */
+
+@media (max-width: 650px) {
+  .admin-pedido-acciones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .admin-pedido-acciones .admin-pedido-mensaje,
+  .admin-pedido-acciones .admin-pedido-eliminar {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
