@@ -1,0 +1,327 @@
+
+/* ========================================
+   PEDIDOS - JOANET
+======================================== */
+
+.pedido-pagina {
+  min-height: 100vh;
+  padding: 0 7%;
+  background:
+    radial-gradient(
+      circle at 80% 35%,
+      rgba(52, 120, 246, 0.09),
+      transparent 35%
+    ),
+    #05070c;
+  color: #ffffff;
+}
+
+/* BARRA SUPERIOR */
+
+.pedido-barra {
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #202632;
+}
+
+.pedido-logo {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  text-decoration: none;
+}
+
+.pedido-logo span {
+  color: #3478f6;
+}
+
+.pedido-volver {
+  color: #a0a8b5;
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+
+.pedido-volver:hover {
+  color: #3478f6;
+}
+
+/* CONTENIDO */
+
+.pedido-contenedor {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 95px 0 110px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 85px;
+}
+
+/* INTRODUCCIÓN */
+
+.pedido-etiqueta {
+  display: inline-block;
+  margin-bottom: 25px;
+  color: #3478f6;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.pedido-introduccion h1 {
+  margin: 0;
+  font-size: clamp(38px, 5vw, 62px);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -3px;
+}
+
+.pedido-introduccion h1 span {
+  color: #3478f6;
+}
+
+.pedido-introduccion > p {
+  max-width: 430px;
+  margin-top: 25px;
+  color: #929baa;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.pedido-detalle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 35px;
+  color: #8c96a7;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.pedido-punto {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3478f6;
+  box-shadow: 0 0 15px rgba(52, 120, 246, 0.8);
+}
+
+/* TARJETA DEL FORMULARIO */
+
+.pedido-tarjeta {
+  padding: 38px;
+  background: rgba(13, 19, 30, 0.94);
+  border: 1px solid #222c3d;
+  border-radius: 8px;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
+}
+
+.pedido-tarjeta-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.pedido-numero {
+  color: #3478f6;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.pedido-tarjeta-encabezado h2 {
+  margin: 12px 0 0;
+  font-size: 27px;
+  font-weight: 600;
+  letter-spacing: -1px;
+}
+
+.pedido-tarjeta-encabezado h2 span {
+  color: #3478f6;
+}
+
+/* CAMPOS */
+
+.pedido-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 23px;
+}
+
+.pedido-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pedido-campo label {
+  color: #e5eaf2;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pedido-campo input {
+  width: 100%;
+  min-height: 52px;
+  box-sizing: border-box;
+  padding: 0 15px;
+  background: #090e17;
+  border: 1px solid #293346;
+  border-radius: 5px;
+  outline: none;
+  color: #ffffff;
+  font-size: 13px;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.pedido-campo input::placeholder {
+  color: #667184;
+}
+
+.pedido-campo input:focus {
+  border-color: #3478f6;
+  box-shadow: 0 0 0 3px rgba(52, 120, 246, 0.12);
+}
+
+.pedido-campo input[aria-invalid="true"] {
+  border-color: #e45d69;
+}
+
+.pedido-ayuda {
+  color: #7f8a9d;
+  font-size: 11px;
+}
+
+.pedido-error {
+  color: #ff7c87;
+  font-size: 11px;
+}
+
+/* BOTÓN */
+
+.pedido-enviar {
+  width: 100%;
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 19px;
+  border: 1px solid #3478f6;
+  border-radius: 5px;
+  background: #3478f6;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 250ms ease, transform 250ms ease;
+}
+
+.pedido-enviar:hover:not(:disabled) {
+  background: #2564d5;
+  transform: translateY(-2px);
+}
+
+.pedido-enviar:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.pedido-enviar span:last-child {
+  font-size: 20px;
+}
+
+.pedido-privacidad {
+  margin: -5px 0 0;
+  color: #778294;
+  font-size: 10px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* PIE */
+
+.pedido-footer {
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  border-top: 1px solid #202632;
+}
+
+.pedido-footer > span {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.pedido-footer > span span {
+  color: #3478f6;
+}
+
+.pedido-footer p {
+  color: #778294;
+  font-size: 11px;
+}
+
+/* TABLETS */
+
+@media (max-width: 850px) {
+  .pedido-contenedor {
+    grid-template-columns: 1fr;
+    max-width: 570px;
+    gap: 45px;
+    padding: 75px 0;
+  }
+
+  .pedido-introduccion h1 {
+    font-size: clamp(42px, 8vw, 58px);
+  }
+}
+
+/* CELULARES */
+
+@media (max-width: 600px) {
+  .pedido-pagina {
+    padding: 0 6%;
+  }
+
+  .pedido-barra {
+    min-height: 75px;
+  }
+
+  .pedido-contenedor {
+    padding: 60px 0 75px;
+    gap: 35px;
+  }
+
+  .pedido-introduccion h1 {
+    letter-spacing: -2px;
+  }
+
+  .pedido-introduccion > p {
+    font-size: 14px;
+  }
+
+  .pedido-tarjeta {
+    padding: 24px 19px;
+  }
+
+  .pedido-footer {
+    min-height: 90px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 7px;
+  }
+
+  .pedido-footer p {
+    margin: 0;
+    text-align: center;
+  }
+}

@@ -1,7 +1,3 @@
-/* ================================
-   ADMINISTRADOR JOANET
-================================ */
-
 .admin-pagina {
   min-height: 100vh;
   padding: 35px 7%;
@@ -425,5 +421,248 @@
 
   .admin-proyecto-acciones button {
     flex: 1;
+  }
+}
+/* ========================================
+   SOLICITUDES DE CLIENTES - JOANET
+======================================== */
+
+.admin-pedidos-seccion {
+  margin-top: 75px;
+}
+
+/* ENCABEZADO */
+
+.admin-pedidos-titulo {
+  align-items: flex-end;
+  flex-wrap: wrap;
+  padding-bottom: 22px;
+}
+
+.admin-pedidos-titulo h2 {
+  margin-top: 10px;
+  font-size: 25px;
+  letter-spacing: -0.7px;
+}
+
+.admin-pedidos-controles {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.admin-actualizar-pedidos {
+  padding: 9px 13px;
+  border: 1px solid #3478f6;
+  border-radius: 4px;
+  background: transparent;
+  color: #76a3ff;
+  font-size: 12px;
+  transition: background 200ms ease, color 200ms ease;
+}
+
+.admin-actualizar-pedidos:hover:not(:disabled) {
+  background: #3478f6;
+  color: #ffffff;
+}
+
+/* LISTA */
+
+.admin-pedidos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.admin-pedido {
+  padding: 23px;
+  border: 1px solid #27344a;
+  border-radius: 6px;
+  background: #080d16;
+  transition: border-color 200ms ease, transform 200ms ease;
+}
+
+.admin-pedido:hover {
+  border-color: #3478f6;
+  transform: translateY(-2px);
+}
+
+/* PARTE SUPERIOR */
+
+.admin-pedido-superior {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #263044;
+}
+
+.admin-pedido-id {
+  color: #70a0ff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.admin-pedido-estado {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid #68532c;
+  border-radius: 30px;
+  color: #e7bd70;
+  font-size: 10px;
+  text-transform: capitalize;
+}
+
+.admin-pedido-estado > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #e7bd70;
+}
+
+/* DATOS DEL CLIENTE */
+
+.admin-pedido-datos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 25px 35px;
+  padding: 25px 0;
+}
+
+.admin-pedido-datos > div > span {
+  display: block;
+  margin-bottom: 9px;
+  color: #71809a;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
+}
+
+.admin-pedido-datos h3 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.admin-pedido-datos p {
+  margin: 0;
+  color: #c3ccda;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.admin-pedido-datos .admin-pedido-telefono {
+  color: #70a0ff;
+  font-weight: 600;
+}
+
+/* PIE DEL PEDIDO */
+
+.admin-pedido-pie {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding-top: 17px;
+  border-top: 1px solid #263044;
+}
+
+.admin-pedido-pie > span {
+  color: #758198;
+  font-size: 11px;
+}
+
+.admin-pedido-mensaje {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 11px 19px;
+  border: 1px solid #3478f6;
+  border-radius: 4px;
+  background: #3478f6;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.admin-pedido-mensaje:hover {
+  background: #245fc9;
+  transform: translateY(-2px);
+}
+
+.admin-pedido-mensaje span {
+  font-size: 17px;
+}
+
+/* ESTADO VACÍO */
+
+.admin-pedidos-vacio {
+  padding: 55px 20px;
+  border: 1px dashed #29364b;
+  border-radius: 5px;
+  background: #080d16;
+  text-align: center;
+}
+
+.admin-pedidos-icono {
+  color: #3478f6;
+  font-size: 35px;
+}
+
+.admin-pedidos-vacio h3 {
+  margin: 18px 0 8px;
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.admin-pedidos-vacio p {
+  margin: 0;
+  color: #8995a8;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 650px) {
+  .admin-pedidos-seccion {
+    margin-top: 55px;
+  }
+
+  .admin-pedidos-titulo {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-pedidos-controles {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .admin-pedido {
+    padding: 17px;
+  }
+
+  .admin-pedido-datos {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .admin-pedido-pie {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .admin-pedido-mensaje {
+    width: 100%;
+    box-sizing: border-box;
   }
 }

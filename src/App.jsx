@@ -1,15 +1,31 @@
 
-import { useState, useRef } from 'react'
+import { useState, useRef, lazy, Suspense } from 'react'
+
 import './styles/App.css'
+
 import Hero from './hero'
 import Proyectos from './proyectos'
 import Footer from './footer'
-import Admin from './admin'
+
+// Cargar estas páginas solamente cuando se necesiten.
+const Admin = lazy(() => import('./admin'))
+const Pedido = lazy(() => import('./pedido'))
+
+// Pantalla de carga.
+function CargandoPagina() {
+  return (
+    <main className="admin-pagina">
+      <p className="admin-cargando">Cargando página...</p>
+    </main>
+  )
+}
+
+// ========================================
+// ENCABEZADO Y NAVEGACIÓN
+// ========================================
 
 function Header() {
-
   const [menuAbierto, setMenuAbierto] = useState(false)
-
   const botonMenu = useRef(null)
 
   const cerrarMenu = () => {
@@ -17,7 +33,7 @@ function Header() {
   }
 
   const alternarMenu = () => {
-    setMenuAbierto((estado) => !estado)
+    setMenuAbierto(estado => !estado)
   }
 
   const manejarTecla = (e) => {
@@ -30,23 +46,21 @@ function Header() {
   return (
     <header className="header" onKeyDown={manejarTecla}>
 
-      {/* LOGO */}
-        <a
-          href="#inicio"
-          className="logo"
-          aria-label="JOANET - Ir al inicio"
-          onClick={cerrarMenu}
-        >
-          <img
-            src="/logo.svg"
-            alt="Logo de JOANET"
-            className="logo-img"
-          />
+      <a
+        href="#inicio"
+        className="logo"
+        aria-label="JOANET - Ir al inicio"
+        onClick={cerrarMenu}
+      >
+        <img
+          src="/logo.svg"
+          alt="Logo de JOANET"
+          className="logo-img"
+        />
 
-          <span className="logo-texto">JOANET</span>
-        </a>
+        <span className="logo-texto">JOANET</span>
+      </a>
 
-      {/* BOTÓN HAMBURGUESA */}
       <button
         ref={botonMenu}
         type="button"
@@ -61,54 +75,53 @@ function Header() {
         <span aria-hidden="true"></span>
       </button>
 
-      {/* NAVEGACIÓN */}
       <nav
         id="menu-principal"
         className={menuAbierto ? 'nav activo' : 'nav'}
         aria-label="Navegación principal"
       >
-
-        <a href="#inicio" onClick={cerrarMenu}>
-          Inicio
-        </a>
-
-        <a href="#proyectos" onClick={cerrarMenu}>
-          Proyectos
-        </a>
-
-        <a href="#servicios" onClick={cerrarMenu}>
-          Servicios
-        </a>
-
-        <a href="#sobre-mi" onClick={cerrarMenu}>
-          Sobre mí
-        </a>
+        <a href="#inicio" onClick={cerrarMenu}>Inicio</a>
+        <a href="#proyectos" onClick={cerrarMenu}>Proyectos</a>
+        <a href="#servicios" onClick={cerrarMenu}>Servicios</a>
+        <a href="#sobre-mi" onClick={cerrarMenu}>Sobre mí</a>
 
         <a
-          href="#contacto"
+          href="/pedido"
           className="contacto-link"
           onClick={cerrarMenu}
         >
-          Contacto <span aria-hidden="true">↗</span>
+          Solicitar página <span aria-hidden="true">↗</span>
         </a>
 
+        <a href="#contacto" onClick={cerrarMenu}>Contacto</a>
       </nav>
-
     </header>
   )
 }
 
+// ========================================
+// COMPONENTE PRINCIPAL
+// ========================================
 
-// Componente principal.
 function App() {
   const ruta = window.location.pathname.replace(/\/+$/, '') || '/'
 
-  // Mostrar el administrador en /admin.
   if (ruta === '/admin') {
-    return <Admin />
+    return (
+      <Suspense fallback={<CargandoPagina />}>
+        <Admin />
+      </Suspense>
+    )
   }
 
-  // Página pública.
+  if (ruta === '/pedido') {
+    return (
+      <Suspense fallback={<CargandoPagina />}>
+        <Pedido />
+      </Suspense>
+    )
+  }
+
   return (
     <>
       <Header />

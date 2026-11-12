@@ -1,4 +1,5 @@
 
+
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import './styles/admin.css'
@@ -21,16 +22,50 @@ function obtenerImagen(nombre) {
   return slug ? `/fotos/${slug}.jpg` : ''
 }
 
+// Formatear la fecha del pedido.
+function formatearFecha(fecha) {
+  if (!fecha) return 'Fecha no disponible'
+
+  const fechaNormalizada = fecha.includes('T')
+    ? fecha
+    : `${fecha.replace(' ', 'T')}Z`
+
+  const fechaObjeto = new Date(fechaNormalizada)
+
+  if (Number.isNaN(fechaObjeto.getTime())) {
+    return fecha
+  }
+
+  return new Intl.DateTimeFormat('es-AR', {
+    dateStyle: 'medium',
+    timeStyle: 'short'
+  }).format(fechaObjeto)
+}
+
+// Generar enlace de WhatsApp.
+function obtenerEnlaceWhatsApp(pedido) {
+  const telefono = String(pedido.telefono || '').replace(/\D/g, '')
+
+  const mensaje = `Hola ${pedido.nombre}, soy de JOANET. Recibí tu solicitud para crear una página web para tu negocio de ${pedido.tipo_negocio}. Me gustaría conversar con vos sobre tu idea.`
+
+  return `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`
+}
+
 function Admin() {
   const [estado, setEstado] = useState('verificando')
   const [password, setPassword] = useState('')
   const [proyectos, setProyectos] = useState([])
+  const [pedidos, setPedidos] = useState([])
   const [formulario, setFormulario] = useState(formularioInicial)
   const [editandoId, setEditandoId] = useState(null)
   const [error, setError] = useState('')
   const [procesando, setProcesando] = useState(false)
+  const [cargandoPedidos, setCargandoPedidos] = useState(false)
 
-  // Comprobar si ya existe una sesión de administrador.
+  // ========================================
+  // COMPROBAR SESIÓN
+  // ========================================
+
   useEffect(() => {
     async function comprobarSesion() {
       try {
@@ -48,6 +83,16 @@ function Admin() {
         if (datos.autenticado) {
           await cargarProyectos()
           setEstado('admin')
+
+          try {
+            await cargarPedidos()
+          } catch (error) {
+            console.error(error)
+
+            toast.error('No se pudieron cargar los pedidos', {
+              description: error.message
+            })
+          }
         } else {
           setEstado('login')
         }
@@ -61,7 +106,10 @@ function Admin() {
     comprobarSesion()
   }, [])
 
-  // Consultar proyectos guardados en D1.
+  // ========================================
+  // CARGAR PROYECTOS
+  // ========================================
+
   async function cargarProyectos() {
     const respuesta = await fetch('/api/proyectos', {
       cache: 'no-store',
@@ -77,7 +125,48 @@ function Admin() {
     setProyectos(datos)
   }
 
-  // Actualizar los campos del formulario.
+  // ========================================
+  // CARGAR PEDIDOS
+  // ========================================
+
+  async function cargarPedidos() {
+    setCargandoPedidos(true)
+
+    try {
+      const respuesta = await fetch('/api/pedidos', {
+        cache: 'no-store',
+        credentials: 'same-origin'
+      })
+
+      const datos = await respuesta.json()
+
+      if (!respuesta.ok || !Array.isArray(datos)) {
+        throw new Error(datos.error || 'No se pudieron cargar los pedidos.')
+      }
+
+      setPedidos(datos)
+    } finally {
+      setCargandoPedidos(false)
+    }
+  }
+
+  // Actualizar los pedidos manualmente.
+  async function actualizarPedidos() {
+    try {
+      await cargarPedidos()
+
+      toast.success('Pedidos actualizados')
+    } catch (error) {
+      toast.error('No se pudieron actualizar los pedidos', {
+        description: error.message
+      })
+    }
+  }
+
+  // ========================================
+  // FORMULARIO DE PROYECTOS
+  // ========================================
+
   function manejarCambio(evento) {
     const { name, value } = evento.target
 
@@ -87,7 +176,10 @@ function Admin() {
     }))
   }
 
-  // Iniciar sesión.
+  // ========================================
+  // INICIAR SESIÓN
+  // ========================================
+
   async function iniciarSesion(evento) {
     evento.preventDefault()
 
@@ -115,6 +207,14 @@ function Admin() {
       await cargarProyectos()
       setEstado('admin')
 
+      try {
+        await cargarPedidos()
+      } catch (error) {
+        toast.error('No se pudieron cargar los pedidos', {
+          description: error.message
+        })
+      }
+
       toast.success('¡Bienvenido!', {
         description: 'Sesión de administrador iniciada.'
       })
@@ -125,7 +225,10 @@ function Admin() {
     }
   }
 
-  // Guardar un proyecto nuevo o editar uno existente.
+  // ========================================
+  // GUARDAR O EDITAR PROYECTOS
+  // ========================================
+
   async function guardarProyecto(evento) {
     evento.preventDefault()
 
@@ -160,11 +263,8 @@ function Admin() {
 
       await cargarProyectos()
 
-      // NOTIFICACIÓN DE SONNER
       toast.success(
-        editando
-          ? 'Proyecto actualizado'
-          : 'Proyecto agregado',
+        editando ? 'Proyecto actualizado' : 'Proyecto agregado',
         {
           description: editando
             ? 'Los cambios se guardaron correctamente.'
@@ -204,7 +304,10 @@ function Admin() {
     setError('')
   }
 
-  // Eliminar un proyecto.
+  // ========================================
+  // ELIMINAR PROYECTOS
+  // ========================================
+
   async function eliminarProyecto(id) {
     const confirmado = window.confirm(
       '¿Seguro que querés eliminar este proyecto?'
@@ -233,7 +336,6 @@ function Admin() {
 
       await cargarProyectos()
 
-      // NOTIFICACIÓN DE SONNER
       toast.success('Proyecto eliminado', {
         description: 'El proyecto se eliminó correctamente.'
       })
@@ -246,7 +348,10 @@ function Admin() {
     }
   }
 
-  // Cerrar sesión.
+  // ========================================
+  // CERRAR SESIÓN
+  // ========================================
+
   async function cerrarSesion() {
     setProcesando(true)
 
@@ -261,6 +366,7 @@ function Admin() {
       }
 
       setProyectos([])
+      setPedidos([])
       setFormulario(formularioInicial)
       setEditandoId(null)
       setEstado('login')
@@ -278,7 +384,10 @@ function Admin() {
     }
   }
 
-  // Pantalla de comprobación.
+  // ========================================
+  // PANTALLA DE COMPROBACIÓN
+  // ========================================
+
   if (estado === 'verificando') {
     return (
       <main className="admin-pagina">
@@ -287,7 +396,10 @@ function Admin() {
     )
   }
 
-  // Pantalla de inicio de sesión.
+  // ========================================
+  // PANTALLA DE INICIO DE SESIÓN
+  // ========================================
+
   if (estado === 'login') {
     return (
       <main className="admin-pagina admin-login">
@@ -324,9 +436,13 @@ function Admin() {
     )
   }
 
-  // Panel de administración.
+  // ========================================
+  // PANEL DE ADMINISTRACIÓN
+  // ========================================
+
   return (
     <main className="admin-pagina">
+
       <header className="admin-barra">
         <a href="/" className="admin-logo">JOANET<span>.</span></a>
 
@@ -345,12 +461,15 @@ function Admin() {
       </header>
 
       <section className="admin-contenido">
+
+        {/* TÍTULO */}
         <div className="admin-titulo">
           <span className="admin-etiqueta">GESTIÓN DEL SITIO</span>
           <h1>Mis proyectos<span>.</span></h1>
           <p>Agregá, editá o eliminá los proyectos de tu portafolio.</p>
         </div>
 
+        {/* FORMULARIO DE PROYECTOS */}
         <form className="admin-formulario" onSubmit={guardarProyecto}>
           <div className="admin-formulario-titulo">
             <h2>{editandoId ? 'Editar proyecto' : 'Agregar proyecto'}</h2>
@@ -423,6 +542,7 @@ function Admin() {
           </div>
         </form>
 
+        {/* LISTADO DE PROYECTOS */}
         <section className="admin-listado">
           <div className="admin-listado-titulo">
             <h2>Proyectos publicados</h2>
@@ -443,6 +563,7 @@ function Admin() {
                   <div className="admin-proyecto-info">
                     <h3>{proyecto.nombre}</h3>
                     <p>{proyecto.descripcion}</p>
+
                     <a
                       href={proyecto.enlace}
                       target="_blank"
@@ -476,7 +597,106 @@ function Admin() {
           )}
         </section>
 
+        {/* ===================================
+            NUEVA SECCIÓN: PEDIDOS
+        =================================== */}
+
+        <section className="admin-listado admin-pedidos-seccion" id="pedidos">
+
+          <div className="admin-listado-titulo admin-pedidos-titulo">
+            <div>
+              <span className="admin-etiqueta">CLIENTES</span>
+              <h2>Solicitudes recibidas</h2>
+            </div>
+
+            <div className="admin-pedidos-controles">
+              <span>{pedidos.length} en total</span>
+
+              <button
+                type="button"
+                className="admin-actualizar-pedidos"
+                onClick={actualizarPedidos}
+                disabled={cargandoPedidos}
+              >
+                {cargandoPedidos ? 'Actualizando...' : '↻ Actualizar'}
+              </button>
+            </div>
+          </div>
+
+          {cargandoPedidos ? (
+            <p className="admin-vacio">Cargando solicitudes...</p>
+          ) : pedidos.length === 0 ? (
+            <div className="admin-pedidos-vacio">
+              <span className="admin-pedidos-icono">✉</span>
+              <h3>Todavía no hay solicitudes.</h3>
+              <p>Cuando un cliente complete el formulario, su pedido aparecerá acá.</p>
+            </div>
+          ) : (
+            <div className="admin-pedidos-lista">
+
+              {pedidos.map(pedido => (
+                <article className="admin-pedido" key={pedido.id}>
+
+                  <div className="admin-pedido-superior">
+                    <span className="admin-pedido-id">
+                      SOLICITUD #{String(pedido.id).padStart(3, '0')}
+                    </span>
+
+                    <span className="admin-pedido-estado">
+                      <span></span>
+                      {pedido.estado || 'Pendiente'}
+                    </span>
+                  </div>
+
+                  <div className="admin-pedido-datos">
+
+                    <div className="admin-pedido-cliente">
+                      <span>CLIENTE</span>
+                      <h3>{pedido.nombre}</h3>
+                    </div>
+
+                    <div>
+                      <span>TIPO DE NEGOCIO</span>
+                      <p>{pedido.tipo_negocio}</p>
+                    </div>
+
+                    <div>
+                      <span>WHATSAPP</span>
+                      <p className="admin-pedido-telefono">
+                        +{pedido.telefono}
+                      </p>
+                    </div>
+
+                    <div>
+                      <span>FECHA DE SOLICITUD</span>
+                      <p>{formatearFecha(pedido.creado_en)}</p>
+                    </div>
+
+                  </div>
+
+                  <div className="admin-pedido-pie">
+                    <span>Solicitud recibida correctamente</span>
+
+                    <a
+                      href={obtenerEnlaceWhatsApp(pedido)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="admin-pedido-mensaje"
+                    >
+                      Mensaje <span aria-hidden="true">↗</span>
+                    </a>
+                  </div>
+
+                </article>
+              ))}
+
+            </div>
+          )}
+
+        </section>
+
         <a href="/" className="admin-volver">← Volver al sitio</a>
+
       </section>
     </main>
   )
