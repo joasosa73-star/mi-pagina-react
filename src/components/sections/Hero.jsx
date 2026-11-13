@@ -1,5 +1,5 @@
 
-import './styles/hero.css'
+import '../../styles/sections/hero.css'
 
 import {
   ArrowUpRight,

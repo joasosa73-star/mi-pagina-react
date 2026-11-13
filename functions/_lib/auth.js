@@ -29,6 +29,10 @@ function base64urlDecode(value) {
 
 // Prepara la clave para firmar las sesiones.
 async function getSigningKey(secret) {
+  if (typeof secret !== 'string' || secret.length === 0) {
+    throw new Error('SESSION_SECRET no está configurado.')
+  }
+
   return crypto.subtle.importKey(
     'raw',
     encoder.encode(secret),

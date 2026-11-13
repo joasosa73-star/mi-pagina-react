@@ -1,44 +1,31 @@
-
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-
-import './styles/pedido.css'
-
-// ========================================
-// VALIDACIONES DEL FORMULARIO
-// ========================================
+import '../styles/pages/pedido.css'
 
 const esquemaPedido = z.object({
   nombre: z.string()
     .trim()
     .min(2, 'Ingresá tu nombre (mínimo 2 caracteres).')
     .max(80, 'El nombre es demasiado largo.'),
-
   tipo_negocio: z.string()
     .trim()
     .min(2, 'Contanos qué tipo de negocio tenés.')
     .max(100, 'La descripción del negocio es demasiado larga.'),
-
   telefono: z.string()
     .trim()
     .min(8, 'Ingresá un número de WhatsApp válido.')
     .max(25, 'El número es demasiado largo.')
-    .refine(
-      numero => {
-        const digitos = numero.replace(/\D/g, '')
-        return digitos.length >= 8 && digitos.length <= 15
-      },
-      'El número debe tener entre 8 y 15 dígitos.'
-    )
+    .refine((numero) => {
+      const digitos = numero.replace(/\D/g, '')
+      return digitos.length >= 8 && digitos.length <= 15
+    }, 'El número debe tener entre 8 y 15 dígitos.'),
+  // Campo trampa anti-spam. Los usuarios reales no deben completarlo.
+  website: z.string().max(0, 'Solicitud no válida.').optional()
 })
 
-// ========================================
-// COMPONENTE PEDIDO
-// ========================================
-
-function Pedido() {
+export default function Pedido() {
   const {
     register,
     handleSubmit,
@@ -49,17 +36,18 @@ function Pedido() {
     defaultValues: {
       nombre: '',
       tipo_negocio: '',
-      telefono: ''
+      telefono: '',
+      website: ''
     }
   })
 
-  // Enviar solicitud a Cloudflare.
   async function enviarPedido(datos) {
     try {
       const respuesta = await fetch('/api/pedidos', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
         },
         credentials: 'same-origin',
         body: JSON.stringify(datos)
@@ -68,13 +56,10 @@ function Pedido() {
       const resultado = await respuesta.json()
 
       if (!respuesta.ok) {
-        throw new Error(
-          resultado.error || 'No se pudo enviar tu solicitud.'
-        )
+        throw new Error(resultado.error || 'No se pudo enviar tu solicitud.')
       }
 
       reset()
-
       toast.success('¡Solicitud enviada!', {
         description: resultado.id
           ? `Tu número de solicitud es #${resultado.id}. Nos comunicaremos con vos.`
@@ -89,47 +74,26 @@ function Pedido() {
 
   return (
     <main className="pedido-pagina">
-
-      {/* BARRA SUPERIOR */}
       <header className="pedido-barra">
-        <a href="/" className="pedido-logo">
-          JOANET<span>.</span>
-        </a>
-
-        <a href="/" className="pedido-volver">
-          ← Volver al sitio
-        </a>
+        <a href="/" className="pedido-logo">JOANET<span>.</span></a>
+        <a href="/" className="pedido-volver">← Volver al sitio</a>
       </header>
 
-      {/* CONTENIDO */}
       <section className="pedido-contenedor">
-
         <div className="pedido-introduccion">
-          <span className="pedido-etiqueta">
-            TRABAJEMOS JUNTOS
-          </span>
-
-          <h1>
-            Tu negocio merece
-            <br />
-            una página <span>web.</span>
-          </h1>
-
+          <span className="pedido-etiqueta">TRABAJEMOS JUNTOS</span>
+          <h1>Tu negocio merece<br />una página <span>web.</span></h1>
           <p>
-            Contame sobre tu negocio. Completá el formulario
-            y me pondré en contacto con vos para conversar
-            sobre tu página web.
+            Contame sobre tu negocio. Completá el formulario y me pondré
+            en contacto con vos para conversar sobre tu página web.
           </p>
-
           <div className="pedido-detalle">
-            <span className="pedido-punto"></span>
+            <span className="pedido-punto" />
             SOLICITUD DIRECTA Y PERSONALIZADA
           </div>
         </div>
 
-        {/* FORMULARIO */}
         <div className="pedido-tarjeta">
-
           <div className="pedido-tarjeta-encabezado">
             <div>
               <span className="pedido-numero">01 / SOLICITUD</span>
@@ -142,13 +106,8 @@ function Pedido() {
             onSubmit={handleSubmit(enviarPedido)}
             noValidate
           >
-
-            {/* NOMBRE */}
             <div className="pedido-campo">
-              <label htmlFor="pedido-nombre">
-                Nombre completo
-              </label>
-
+              <label htmlFor="pedido-nombre">Nombre completo</label>
               <input
                 id="pedido-nombre"
                 type="text"
@@ -156,44 +115,28 @@ function Pedido() {
                 autoComplete="name"
                 maxLength={80}
                 aria-invalid={Boolean(errors.nombre)}
+                aria-describedby={errors.nombre ? 'error-nombre' : undefined}
                 {...register('nombre')}
               />
-
-              {errors.nombre && (
-                <span className="pedido-error">
-                  {errors.nombre.message}
-                </span>
-              )}
+              {errors.nombre && <span id="error-nombre" className="pedido-error">{errors.nombre.message}</span>}
             </div>
 
-            {/* TIPO DE NEGOCIO */}
             <div className="pedido-campo">
-              <label htmlFor="pedido-negocio">
-                ¿Qué tipo de negocio tenés?
-              </label>
-
+              <label htmlFor="pedido-negocio">¿Qué tipo de negocio tenés?</label>
               <input
                 id="pedido-negocio"
                 type="text"
                 placeholder="Ej.: Barbería, restaurante, tienda..."
                 maxLength={100}
                 aria-invalid={Boolean(errors.tipo_negocio)}
+                aria-describedby={errors.tipo_negocio ? 'error-negocio' : undefined}
                 {...register('tipo_negocio')}
               />
-
-              {errors.tipo_negocio && (
-                <span className="pedido-error">
-                  {errors.tipo_negocio.message}
-                </span>
-              )}
+              {errors.tipo_negocio && <span id="error-negocio" className="pedido-error">{errors.tipo_negocio.message}</span>}
             </div>
 
-            {/* WHATSAPP */}
             <div className="pedido-campo">
-              <label htmlFor="pedido-telefono">
-                Número de WhatsApp
-              </label>
-
+              <label htmlFor="pedido-telefono">Número de WhatsApp</label>
               <input
                 id="pedido-telefono"
                 type="tel"
@@ -202,50 +145,41 @@ function Pedido() {
                 inputMode="tel"
                 maxLength={25}
                 aria-invalid={Boolean(errors.telefono)}
+                aria-describedby={errors.telefono ? 'error-telefono' : 'ayuda-telefono'}
                 {...register('telefono')}
               />
-
-              <span className="pedido-ayuda">
-                Incluí el código de país y de área.
-              </span>
-
-              {errors.telefono && (
-                <span className="pedido-error">
-                  {errors.telefono.message}
-                </span>
-              )}
+              <span id="ayuda-telefono" className="pedido-ayuda">Incluí el código de país y de área.</span>
+              {errors.telefono && <span id="error-telefono" className="pedido-error">{errors.telefono.message}</span>}
             </div>
 
-            {/* ENVIAR */}
-            <button
-              type="submit"
-              className="pedido-enviar"
-              disabled={isSubmitting}
-            >
-              <span>
-                {isSubmitting ? 'Enviando solicitud...' : 'Enviar solicitud'}
-              </span>
+            {/* Honeypot: oculto visualmente, pero accesible al servidor. */}
+            <div className="pedido-campo pedido-campo-trampa" aria-hidden="true">
+              <label htmlFor="pedido-website">Dejá este campo vacío</label>
+              <input
+                id="pedido-website"
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                {...register('website')}
+              />
+            </div>
 
+            <button type="submit" className="pedido-enviar" disabled={isSubmitting}>
+              <span>{isSubmitting ? 'Enviando solicitud...' : 'Enviar solicitud'}</span>
               <span aria-hidden="true">↗</span>
             </button>
 
             <p className="pedido-privacidad">
-              Tus datos se utilizarán únicamente para contactarte
-              por tu solicitud.
+              Tus datos se utilizarán únicamente para contactarte por tu solicitud.
             </p>
-
           </form>
         </div>
       </section>
 
-      {/* PIE */}
       <footer className="pedido-footer">
         <span>JOANET<span>.</span></span>
         <p>Desarrollo web y experiencias digitales.</p>
       </footer>
-
     </main>
   )
 }
-
-export default Pedido

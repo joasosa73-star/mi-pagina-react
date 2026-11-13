@@ -83,7 +83,6 @@
 
   max-width: 680px;
 
-  animation: hero-aparecer 800ms ease both;
 }
 
 /* ETIQUETA */
@@ -266,7 +265,6 @@
   min-width: 0;
   padding: 30px 0;
 
-  animation: hero-aparecer 1000ms ease 150ms both;
 }
 
 /* CÍRCULO DECORATIVO */
@@ -454,7 +452,6 @@
 
   box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
 
-  animation: hero-flotar 4s ease-in-out infinite;
 }
 
 .hero-flotante-icono {
@@ -502,32 +499,6 @@
   margin-left: 8px;
   color: #3478f6;
   font-size: 15px;
-}
-
-/* ========================================
-   ANIMACIONES
-======================================== */
-
-@keyframes hero-aparecer {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes hero-flotar {
-  0%, 100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
 }
 
 /* ========================================
